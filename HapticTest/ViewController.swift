@@ -40,8 +40,12 @@ class ViewController: UIViewController {
 
     }
     private func simulateUseCase() {
+        /// comment the following line to disable background processing
         startBackgroundTask()
-        DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(3)) {
+
+        let seconds = 10
+
+        DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(seconds)) {
             self.sendLocalNotification()
             print("Background time remaining = \(UIApplication.shared.backgroundTimeRemaining) seconds")
             print("haptics! \(Calendar.current.dateComponents([.second], from: self.startTimestamp ?? Date(), to: Date()).second ?? 0)")
