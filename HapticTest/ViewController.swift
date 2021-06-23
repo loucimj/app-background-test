@@ -27,19 +27,19 @@ class ViewController: UIViewController {
         simulateUseCase()
     }
 
-    func startBackgroundTask() {
+    private func startBackgroundTask() {
         startTimestamp = Date()
         backgroundTask = UIApplication.shared.beginBackgroundTask {
             self.finishBackgroundTask()
         }
     }
 
-    func finishBackgroundTask() {
+    private func finishBackgroundTask() {
         UIApplication.shared.endBackgroundTask(self.backgroundTask)
         self.backgroundTask = .invalid
 
     }
-    func simulateUseCase() {
+    private func simulateUseCase() {
         startBackgroundTask()
         DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(3)) {
             self.sendLocalNotification()
@@ -49,12 +49,12 @@ class ViewController: UIViewController {
         }
     }
 
-    @objc func reinstateBackgroundTask() {
+    @objc private func reinstateBackgroundTask() {
         guard backgroundTask == .invalid else { return }
         simulateUseCase()
     }
 
-    func sendLocalNotification() {
+    private func sendLocalNotification() {
         let notification = UNMutableNotificationContent()
         notification.title = "Titulo"
         notification.subtitle = "Haptics happened!"
@@ -64,7 +64,7 @@ class ViewController: UIViewController {
         self.scheduleLocalNotification(with: notification)
     }
 
-    func checkPermission() {
+    private func checkPermission() {
         UNUserNotificationCenter.current().getNotificationSettings { (notificationSettings) in
             switch notificationSettings.authorizationStatus {
             case .notDetermined:
@@ -82,7 +82,7 @@ class ViewController: UIViewController {
         }
     }
 
-    func requestPermission() {
+    private func requestPermission() {
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
 
